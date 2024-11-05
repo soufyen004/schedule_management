@@ -10,9 +10,9 @@ import {
   onboardingSchema,
 } from "./lib/zodSchemas";
 import { redirect } from "next/navigation";
-
 import { revalidatePath } from "next/cache";
 import { nylas } from "./lib/nylas";
+import Swal from "sweetalert2";
 
 export async function onboardingAction(prevState: any, formData: FormData) {
   const session = await requireUser();
@@ -281,93 +281,118 @@ export async function updateAvailabilityAction(formData: FormData) {
 }
 
 export async function createMeetingAction(formData: FormData) {
-  const getUserData = await prisma.user.findUnique({
-    where: {
-      username: formData.get("username") as string,
-    },
-    select: {
-      grantEmail: true,
-      grantId: true,
-    },
-  });
 
-  if (!getUserData) {
-    throw new Error("User not found");
-  }
+  // const Toast = Swal.mixin({
+  //   toast: true,
+  //   position: "top-end",
+  //   showConfirmButton: false,
+  //   timer: 3000,
+  //   timerProgressBar: true,
+  //   didOpen: (toast) => {
+  //     toast.onmouseenter = Swal.stopTimer;
+  //     toast.onmouseleave = Swal.resumeTimer;
+  //   }
+  // });
 
-  const eventTypeData = await prisma.eventType.findUnique({
-    where: {
-      id: formData.get("eventTypeId") as string,
-    },
-    select: {
-      title: true,
-      description: true,
-    },
-  });
+  // if(!FormData){
+  //   Toast.fire({
+  //     icon: "error",
+  //     title: "Please select at least one participant"
+  //   })
+  //   return false;
+  // }
 
-  const formTime = formData.get("fromTime") as string;
-  const meetingLength = Number(formData.get("meetingLength"));
-  const eventDate = formData.get("eventDate") as string;
+  // const getUserData = await prisma.user.findUnique({
+  //   where: {
+  //     username: formData.get("username") as string,
+  //   },
+  //   select: {
+  //     grantEmail: true,
+  //     grantId: true,
+  //   },
+  // });
 
-  const startDateTime = new Date(`${eventDate}T${formTime}:00`);
+  // if (!getUserData) {
+  //   throw new Error("User not found");
+  // }
 
-  // Calculate the end time by adding the meeting length (in minutes) to the start time
-  const endDateTime = new Date(startDateTime.getTime() + meetingLength * 60000);
+  // const eventTypeData = await prisma.eventType.findUnique({
+  //   where: {
+  //     id: formData.get("eventTypeId") as string,
+  //   },
+  //   select: {
+  //     title: true,
+  //     description: true,
+  //   },
+  // });
 
-  const participantsData = [
-    {
-      name: "name1",
-      email: "soufyen004@gmail.com",
-      status: "yes",
-    },
-    {
-      name: "name2",
-      email: "soufy3n@outlook.com",
-      status: "yes",
-    }
-  ]
+  // const formTime = formData.get("fromTime") as string;
+  // const meetingLength = Number(formData.get("meetingLength"));
+  // const eventDate = formData.get("eventDate") as string;
 
-  await nylas.events.create({
-    identifier: getUserData?.grantId as string,
-    requestBody: {
-      title: eventTypeData?.title,
-      description: eventTypeData?.description,
-      when: {
-        startTime: Math.floor(startDateTime.getTime() / 1000),
-        endTime: Math.floor(endDateTime.getTime() / 1000),
-      },
-      conferencing: {
-        autocreate: {},
-        provider: "Google Meet",
-      },
-      // participants: [
-      //   {
-      //     name: formData.get("name") as string,
-      //     email: formData.get("email") as string,
-      //     status: "yes",
-      //   },
-      // ],
-      participants : [...participantsData] as []
-      // [
-      //   {
-      //     name: "name1" as string,
-      //     email: "soufyen004@gmail.com" as string,
-      //     status: "yes",
-      //   },
-      //   {
-      //     name: "name2" as string,
-      //     email: "soufy3n@outlook.com" as string,
-      //     status: "yes",
-      //   }
-      // ]
-    },
-    queryParams: {
-      calendarId: getUserData?.grantEmail as string,
-      notifyParticipants: true,
-    },
-  });
+  // const startDateTime = new Date(`${eventDate}T${formTime}:00`);
 
-  return redirect(`/success`);
+  // // Calculate the end time by adding the meeting length (in minutes) to the start time
+  // const endDateTime = new Date(startDateTime.getTime() + meetingLength * 60000);
+
+  // const participantsData = [
+  //   {
+  //     name: "name1",
+  //     email: "soufyen004@gmail.com",
+  //     status: "yes",
+  //   },
+  //   {
+  //     name: "name2",
+  //     email: "soufy3n@outlook.com",
+  //     status: "yes",
+  //   }
+  // ]
+
+
+
+  
+  // await nylas.events.create({
+  //   identifier: getUserData?.grantId as string,
+  //   requestBody: {
+  //     title: eventTypeData?.title,
+  //     description: eventTypeData?.description,
+  //     when: {
+  //       startTime: Math.floor(startDateTime.getTime() / 1000),
+  //       endTime: Math.floor(endDateTime.getTime() / 1000),
+  //     },
+  //     conferencing: {
+  //       autocreate: {},
+  //       provider: "Google Meet",
+  //     },
+  //     // participants: [
+  //     //   {
+  //     //     name: formData.get("name") as string,
+  //     //     email: formData.get("email") as string,
+  //     //     status: "yes",
+  //     //   },
+  //     // ],
+  //     participants : participantsData as  []
+  //     // [
+  //     //   {
+  //     //     name: "name1" as string,
+  //     //     email: "soufyen004@gmail.com" as string,
+  //     //     status: "yes",
+  //     //   },
+  //     //   {
+  //     //     name: "name2" as string,
+  //     //     email: "soufy3n@outlook.com" as string,
+  //     //     status: "yes",
+  //     //   }
+  //     // ]
+  //   },
+  //   queryParams: {
+  //     calendarId: getUserData?.grantEmail as string,
+  //     notifyParticipants: true,
+  //   },
+  // });
+
+  // return redirect(`/success`);
+
 }
 
 export async function cancelMeetingAction(formData: FormData) {

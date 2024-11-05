@@ -62,7 +62,7 @@ export const ParticipantsList = ()=> {
             <DataList.Label minWidth="88px">Email</DataList.Label>
             <DataList.Value>
                 <Flex align="center" gap="1">
-                <Code variant="ghost">{el.email}</Code>
+                <Code variant="ghost" className='emailAddr'>{el.email}</Code>
                 <IconButton
                     size="1"
                     aria-label="Copy value"

@@ -10,10 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
-import { BookMarked, CalendarX2, Clock } from "lucide-react";
+import { ArrowBigLeftIcon, BookMarked, CalendarX2, Clock } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { useContext } from "react";
+import Link from "next/link";
+import Form from "./form"
 
 
 async function getData(username: string, eventName: string) {
@@ -77,8 +79,8 @@ const BookingPage = async ({
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       {showForm ? (
-        <Card className="max-w-[600px]">
-          <CardContent className="p-5 grid md:grid-cols-[1fr,auto,1fr] gap-4">
+        <Card className="max-w-[700px]">
+          <CardContent className="p-5 grid md:grid-cols-[2fr,auto,1fr] gap-4">
             <div>
               <Image
                 src={eventType.user.image as string}
@@ -121,6 +123,14 @@ const BookingPage = async ({
               className="hidden md:block h-full w-[1px]"
             />
 
+            <Form
+            eventTypeId={eventType.id} 
+            username={params.username} 
+            fromTime={searchParams.time} 
+            eventDate={searchParams.date} 
+            meetingLength={eventType.duration}
+            />
+{/* 
             <form
               className="flex flex-col gap-y-4 w-[320px]"
               action={createMeetingAction}
@@ -136,47 +146,17 @@ const BookingPage = async ({
               />
               
               <div className="flex flex-col gap-y-1">
+                <Link href={"/"} className="text-red-500 pb-3 flex"><ArrowBigLeftIcon/> Events List</Link>
                 <Label style={{fontSize:18}}>Participants list</Label>
-                {/* <Input name="name" placeholder="Your Name" /> */}
               </div>
 
-              {/* <div className="flex flex-col gap-y-1">
-                <Label>johnDoe@gmail.com</Label>
-                <Label>johnDoe@gmail.com</Label>
-                <Label>johnDoe@gmail.com</Label>
-                <Label>johnDoe@gmail.com</Label>
-              </div> */}
-
-              {/* <DataList.Root>
-              <DataList.Item>
-                <DataList.Label minWidth="88px">EMAIL</DataList.Label>
-                  <DataList.Value>
-                    <Flex align="center" gap="1">
-                      <Code variant="ghost">u_2J89JSA4GJ@gmail.com</Code>
-                      <IconButton
-                        size="1"
-                        aria-label="Copy value"
-                        color="gray"
-                        variant="ghost"
-                      >
-                        <CopyIcon />
-                      </IconButton>
-                    </Flex>
-                  </DataList.Value>
-                </DataList.Item>
-
-                <DataList.Item>
-                  <DataList.Label minWidth="88px">FullName</DataList.Label>
-                  <DataList.Value>Vlad Moroz</DataList.Value>
-                </DataList.Item>
-              </DataList.Root> */}
 
               <ParticipantsList />
 
 
               <SubmitButton text="Book Meeting" />
               
-            </form>
+            </form> */}
 
           <AddParticipantBtn />
 

@@ -8,9 +8,15 @@ export const DataProvider = ({ children }) => {
 
     const [participants, setParticipants] = useState([]);
 
+    useEffect(()=>{
+      localStorage.setItem('participants', JSON.stringify(participants));
+    },[participants])
+
+
     const addParicipant = (participant)=>{
         setParticipants( prev=> [...prev,participant] )
     }
+
 
     const removeParticipant = (participant)=>{
         setParticipants( participants=> participants.filter((p,i)=> p.email !== participant.email ) )
