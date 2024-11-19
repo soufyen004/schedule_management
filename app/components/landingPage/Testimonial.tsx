@@ -25,7 +25,7 @@ export function Testimonial() {
                 />
               </svg>
               <span className="relative z-10 ">
-                Wow CallSchedule is the best platform i have ever used. Definitely
+                Wow MeetingMaster is the best platform i have ever used. Definitely
                 Recommend it to you guys, try it out!
               </span>
             </p>

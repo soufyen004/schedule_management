@@ -9,7 +9,7 @@ export function Hero() {
       <div className="relative items-center w-full py-12 lg:py-20">
         <div className="text-center">
           <span className="text-sm text-primary font-medium tracking-tight bg-primary/10 px-4 py-2 rounded-full">
-            Introducing CallSchedule 1.0
+            Introducing Meeting Master 1.0
           </span>
 
           <h1 className="mt-8 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-medium leading-none">
@@ -18,7 +18,7 @@ export function Hero() {
           </h1>
 
           <p className="max-w-xl mx-auto mt-4   lg:text-lg text-muted-foreground ">
-            Scheduling a meeting can be a pain. But we at CallSchedule make it
+            Scheduling a meeting can be a pain. But we at MeetingMaster make it
             easy for your clients to schedule meetings with you.
           </p>
           <div className=" mt-5 mb-12">

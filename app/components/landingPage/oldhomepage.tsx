@@ -10,7 +10,7 @@ export function OldHomePage() {
         <Link href="/" className="flex items-center gap-x-2">
           <Image src={Logo} alt="logo" width={50} height={50} />
           <h1 className="text-3xl font-bold">
-            Cal<span className="text-primary">Marshal</span>
+            Meeting<span className="text-primary">Master</span>
           </h1>
         </Link>
 
@@ -26,7 +26,7 @@ export function OldHomePage() {
             Scheduling made <span className="text-blue-600">Super Easy</span>
           </h1>
           <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">
-            Get to know CallSchedule, the scheduling planner for everyone. Focus
+            Get to know MeetingMaster, the scheduling planner for everyone. Focus
             on your meetings, not on scheduling them. Free for individuals.
           </p>
           {/* Buttons */}
