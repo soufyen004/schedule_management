@@ -20,19 +20,26 @@ function Form(props) {
 
     const action = async (formData)=>{
 
-    console.log("data:",participants)
-    console.log("formData:",formData)
+
+    console.log("participants data:",participants)
 
     const userName = formData.get("username")
     const formTime = formData.get("fromTime");
     const meetingLength = Number(formData.get("meetingLength"));
     const eventDate = formData.get("eventDate");
-    const eventTypeId = formData.get('eventTypeId')
+    const eventTypeId = props?.eventTypeId
     const startDateTime = new Date(`${eventDate}T${formTime}:00`);
 
     // Calculate the end time by adding the meeting length (in minutes) to the start time
     const endDateTime = new Date(startDateTime.getTime() + meetingLength * 60000);
 
+    console.log("eventTypeId:",eventTypeId)
+    console.log("username:",userName)
+    console.log("formTime:",formTime)
+    console.log("meetingLength:",meetingLength)
+    console.log("eventDate:",eventDate)
+    console.log("startDateTime:",startDateTime)
+    console.log("endDateTime:",endDateTime)
 
     const Toast = Swal.mixin({
       toast: true,
@@ -46,13 +53,13 @@ function Form(props) {
       }
     });
 
-    if(!FormData){
-      Toast.fire({
-        icon: "error",
-        title: "Please select at least one participant"
-      })
-      return false;
-    }
+    // if(!formData){
+    //   Toast.fire({
+    //     icon: "error",
+    //     title: "Please select at least one participant"
+    //   })
+    //   return false;
+    // }
 
 
     // const participantsData = [

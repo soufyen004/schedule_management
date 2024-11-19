@@ -30,45 +30,56 @@ export const createEvents = async(userName,eventTypeId,startDateTime,endDateTime
         },
       });
 
-    await nylas.events.create({
-        identifier: getUserData?.grantId,
-        requestBody: {
-          title: eventTypeData?.title,
-          description: eventTypeData?.description,
-          when: {
-            startTime: Math.floor(startDateTime.getTime() / 1000),
-            endTime: Math.floor(endDateTime.getTime() / 1000),
+      if (!eventTypeData) {
+        throw new Error("Event type not found");
+      }
+
+      try {
+
+        await nylas.events.create({
+          identifier: getUserData?.grantId,
+          requestBody: {
+            title: eventTypeData?.title,
+            description: eventTypeData?.description,
+            when: {
+              startTime: Math.floor(startDateTime.getTime() / 1000),
+              endTime: Math.floor(endDateTime.getTime() / 1000),
+            },
+            conferencing: {
+              autocreate: {},
+              provider: "Google Meet",
+            },
+            // participants: [
+            //   {
+            //     name: formData.get("name") as string,
+            //     email: formData.get("email") as string,
+            //     status: "yes",
+            //   },
+            // ],
+            participants : participantsData
+            // [
+            //   {
+            //     name: "soufyen",
+            //     email: "souaksoufyen@gmail.com",
+            //     status: "yes",
+            //   },
+            //   {
+            //     name: "soufyen",
+            //     email: "soufy3n@outlook.com",
+            //     status: "yes",
+            //   },
+            // ],
           },
-          conferencing: {
-            autocreate: {},
-            provider: "Google Meet",
+          queryParams: {
+            calendarId: getUserData?.grantEmail,
+            notifyParticipants: true,
           },
-          // participants: [
-          //   {
-          //     name: formData.get("name") as string,
-          //     email: formData.get("email") as string,
-          //     status: "yes",
-          //   },
-          // ],
-          participants : participantsData
-          // [
-          //   {
-          //     name: "name1" as string,
-          //     email: "soufyen004@gmail.com" as string,
-          //     status: "yes",
-          //   },
-          //   {
-          //     name: "name2" as string,
-          //     email: "soufy3n@outlook.com" as string,
-          //     status: "yes",
-          //   }
-          // ]
-        },
-        queryParams: {
-          calendarId: getUserData?.grantEmail,
-          notifyParticipants: true,
-        },
-      });
-  
-      return redirect(`/success`);
+        })
+
+      } catch (error) {
+        console.log("Error:",error);
+      }
+
+      return redirect("/success");
+
 }

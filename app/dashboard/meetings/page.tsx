@@ -32,7 +32,7 @@ async function getData(userId: string) {
   if (!userData) {
     throw new Error("User not found");
   }
-  const data = await nylas.events.list({
+  const data = await nylas.events?.list({
     identifier: userData?.grantId as string,
     queryParams: {
       calendarId: userData?.grantEmail as string,
@@ -45,10 +45,12 @@ async function getData(userId: string) {
 const MeetingsPage = async () => {
   const session = await auth();
   const data = await getData(session?.user?.id as string);
-
+  if(data?.data.length < 1) {
+    console.log("data:", data);
+  }
   return (
     <>
-      {data.data.length < 1 ? (
+      {data?.data.length < 1 ? (
         <EmptyState
           title="No meetings found"
           description="You don't have any meetings yet."
@@ -90,8 +92,13 @@ const MeetingsPage = async () => {
                   <div className="flex flex-col items-start">
                     <h2 className="text-sm font-medium">{item.title}</h2>
                     <p className="text-sm text-muted-foreground">
-                      You and {item.participants[0].name}
+                      You and:{" "}
                     </p>
+                    {item.participants?.map((participant,index) => (
+                      <p key={index} className="text-sm text-muted-foreground">
+                        {participant.name}
+                      </p>
+                    ))}
                   </div>
                   <SubmitButton
                     text="Cancel Event"
